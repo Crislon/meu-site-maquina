@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máquina de Cortar Cabelo | Barbeador Elétrico Profissional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Modern Grey & Accent Teal -->
+    <!-- Application Structure Plan: A estrutura da página dedicada é vertical e detalhada, organizada para guiar o usuário através de informações aprofundadas sobre a máquina de cortar cabelo. Inclui: 1. Hero principal com imagem e CTA, 2. Seção de 'Sobre o Produto' para detalhes técnicos e de design, 3. 'Vantagens que Fazem a Diferença' com ícones e descrições sobre o desempenho, 4. 'Explore os Modos de Uso' (interativa), 5. 'Versatilidade de Cuidados Pessoais' com o gráfico, 6. 'Dúvidas Frequentes' para esclarecer dúvidas, e 7. CTA final. Essa estrutura foi escolhida para fornecer um nível de detalhe completo, respondendo a possíveis dúvidas e solidificando o valor do produto antes da compra, com ênfase na sua funcionalidade, precisão e design profissional. -->
+    <!-- Visualization & Content Choices:
+        - Report Info: Detalhes do produto (design profissional, tipo de lâmina, funcionalidades) -> Goal: Informar -> Viz: Texto descritivo e lista -> Interaction: Nenhuma -> Justification: Fornece informações essenciais de forma clara sobre o produto. Library: HTML.
+        - Report Info: Benefícios (precisão, autonomia, portabilidade) -> Goal: Informar/Persuadir -> Viz: Parágrafos descritivos com ícones -> Interaction: Nenhuma -> Justification: Expande os pontos chave das vantagens do aparador com mais detalhes. Library: Unicode/HTML.
+        - Report Info: Modos de uso (cabelo, barba, corpo) -> Goal: Engajar/Explorar -> Viz: Botões de seleção de modo de uso com atualização de texto -> Interaction: Clique para mudar o texto descritivo -> Justification: Permite que o usuário visualize as diferentes aplicações do aparelho. Library: JS.
+        - Report Info: Abrangência de uso -> Goal: Educar/Motivar -> Viz: Gráfico Donut -> Interaction: Hover para detalhes -> Justification: Visualiza a versatilidade de uso do aparador de forma simples e motivadora. Library: Chart.js.
+        - Report Info: Dúvidas comuns (bateria, limpeza, lâminas, à prova d'água) -> Goal: Suporte/Informar -> Viz: Seção de FAQ (Acordeão) -> Interaction: Clique para expandir/colapsar -> Justification: Responde proativamente a perguntas frequentes, construindo confiança. Library: JS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            min-height: 300px;
+            max-height: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                min-height: 380px;
+            }
+        }
+        .cta-button {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.2), 0 5px 8px -2px rgba(0, 0, 0, 0.08);
+        }
+        .mode-selector button.active {
+            transform: scale(1.05);
+            border-width: 3px;
+        }
+        .faq-item {
+            cursor: pointer;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .faq-answer.open {
+            max-height: 200px; /* Ajuste conforme o comprimento do conteúdo */
+            transition: max-height 0.5s ease-in;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-icon.rotate {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header / Hero Section -->
+    <header class="bg-gradient-to-br from-gray-100 to-gray-50 py-12 md:py-20 px-4 text-center relative">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <div class="md:w-1/2 flex justify-center order-2 md:order-1">
+                <img src="https://res.cloudinary.com/du76scqem/image/upload/v1751127863/cortador_j4cwwe.png" alt="Máquina de Cortar Cabelo Barbeador Elétrico Masculino Aparador de Pelos" class="rounded-xl shadow-2xl w-full max-w-sm md:max-w-md lg:max-w-lg">
+            </div>
+            <div class="md:w-1/2 text-left order-1 md:order-2">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    Máquina de Cortar Cabelo<br><span class="text-teal-600">Seu Estilo, Seu Controle.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-700 mb-6 leading-relaxed">
+                    Aparador de pelos elétrico profissional para um design impecável. Corte cabelo, apare a barba e cuide do corpo com precisão e facilidade.
+                </p>
+                <a href="https://s.shopee.com.br/2B3Ss7bNAr" target="_blank" class="cta-button inline-block bg-teal-700 text-white font-bold rounded-full px-10 py-4 text-xl hover:bg-teal-800 transition duration-300 ease-in-out transform hover:scale-105">
+                    Comprar Agora na Shopee
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- About the Product Section -->
+    <section class="py-16 md:py-24 px-4 bg-gray-50">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8">Sobre o Aparador Elétrico Profissional</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Design Ergonômico e Lâminas de Precisão</h3>
+                    <p class="text-gray-600 mb-4">Este aparador elétrico foi desenvolvido com um design ergonômico que se adapta perfeitamente à sua mão, garantindo conforto e controle total durante o uso. Suas lâminas de alta precisão, fabricadas em aço inoxidável cirúrgico, proporcionam um corte suave e eficiente, minimizando irritações e garantindo resultados profissionais em cada uso.</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Lâminas de aço inoxidável de alta durabilidade.</li>
+                        <li>Motor potente para cortes sem travamentos.</li>
+                        <li>Design leve e compacto para fácil manuseio.</li>
+                        <li>Indicador de bateria LED.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Bateria de Longa Duração e Versatilidade</h3>
+                    <p class="text-gray-600 mb-4">Equipado com uma bateria de íons de lítio de longa duração, este aparador oferece horas de uso contínuo com uma única carga, ideal para viagens ou para quem busca praticidade sem fios. Além disso, sua versatilidade permite que você cuide de diversos tipos de pelos, desde o cabelo e a barba até pelos corporais, tudo com um único aparelho.</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Bateria de íons de lítio para maior autonomia.</li>
+                        <li>Recarga rápida via USB.</li>
+                        <li>Uso sem fio para total liberdade de movimento.</li>
+                        <li>Acessórios para diferentes comprimentos de corte.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Advantages Section -->
+    <section class="py-16 md:py-24 px-4 bg-gray-100">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12">Vantagens que Fazem a Diferença no Seu Estilo</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 text-left">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="text-4xl mb-4 text-teal-600">✂️</div>
+                    <h3 class="text-xl font-bold mb-2">Precisão de Corte Profissional</h3>
+                    <p class="text-gray-600">Obtenha contornos nítidos e acabamentos precisos para cabelo e barba, como se você tivesse ido ao barbeiro, no conforto da sua casa.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="text-4xl mb-4 text-teal-600">🔋</div>
+                    <h3 class="text-xl font-bold mb-2">Liberdade Sem Fio e Longa Autonomia</h3>
+                    <p class="text-gray-600">Com bateria de alta capacidade, use seu aparador por longos períodos sem a necessidade de recarregar, ideal para viagens ou uso diário.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="text-4xl mb-4 text-teal-600">🧼</div>
+                    <h3 class="text-xl font-bold mb-2">Fácil de Limpar e Manter</h3>
+                    <p class="text-gray-600">As lâminas removíveis e o design simplificado facilitam a limpeza e a manutenção do aparelho, garantindo higiene e prolongando a vida útil.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="text-4xl mb-4 text-teal-600">✈️</div>
+                    <h3 class="text-xl font-bold mb-2">Portabilidade para Viagens</h3>
+                    <p class="text-gray-600">Compacto e com bateria duradoura, é o companheiro perfeito para manter seu estilo impecável em qualquer lugar do mundo.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="text-4xl mb-4 text-teal-600">💪</div>
+                    <h3 class="text-xl font-bold mb-2">Construção Robusta e Durável</h3>
+                    <p class="text-gray-600">Fabricado com materiais de alta qualidade, este aparador é resistente ao uso diário e garante performance consistente por muito tempo.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="text-4xl mb-4 text-teal-600">✨</div>
+                    <h3 class="text-xl font-bold mb-2">Design Sofisticado e Ergonômico</h3>
+                    <p class="text-gray-600">Além da funcionalidade, o aparador possui um visual moderno e elegante, com um encaixe perfeito na mão para máximo conforto e controle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mode Selector Section (Interactive) -->
+    <section class="py-16 md:py-24 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Explore os Modos de Uso</h2>
+            <p class="text-lg text-gray-600 mb-10">Este aparador é sua ferramenta completa para diferentes necessidades de higiene e estilo.</p>
+            <div id="mode-selector" class="mode-selector flex justify-center items-center gap-6 mb-6 flex-wrap">
+                <button data-mode="Cabelo" class="px-8 py-3 rounded-full bg-teal-600 text-white font-bold border-2 border-transparent focus:outline-none transition-transform duration-200 active">Cabelo</button>
+                <button data-mode="Barba" class="px-8 py-3 rounded-full bg-gray-300 text-gray-800 font-bold border-2 border-transparent focus:outline-none transition-transform duration-200">Barba</button>
+                <button data-mode="Corpo" class="px-8 py-3 rounded-full bg-gray-300 text-gray-800 font-bold border-2 border-transparent focus:outline-none transition-transform duration-200">Corpo</button>
+            </div>
+            <div id="mode-details" class="mt-4 text-xl font-semibold text-teal-700 h-8">
+                Modo Cabelo: Para cortes precisos e ajustes de comprimento.
+            </div>
+        </div>
+    </section>
+
+    <!-- Versatility Chart Section -->
+    <section class="py-16 md:py-24 bg-gray-100">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">A Versatilidade dos Seus Cuidados Pessoais</h2>
+            <p class="text-lg text-gray-600 mb-10">Veja como este aparador se torna essencial para sua rotina de beleza e higiene:</p>
+            <div class="chart-container">
+                <canvas id="versatilityChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 md:py-24 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center">Dúvidas Frequentes</h2>
+            <div id="faq-container" class="space-y-4">
+                <div class="faq-item bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center cursor-pointer">
+                        <h3 class="text-xl font-semibold text-gray-700">Qual a autonomia da bateria?</h3>
+                        <span class="faq-icon text-2xl text-teal-600">+</span>
+                    </div>
+                    <div class="faq-answer mt-4 text-gray-600">
+                        <p>O aparador oferece até X minutos de uso contínuo com uma carga completa, ideal para múltiplas sessões de corte e viagens. O tempo exato pode variar.</p>
+                    </div>
+                </div>
+                <div class="faq-item bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center cursor-pointer">
+                        <h3 class="text-xl font-semibold text-gray-700">As lâminas são laváveis?</h3>
+                        <span class="faq-icon text-2xl text-teal-600">+</span>
+                    </div>
+                    <div class="faq-answer mt-4 text-gray-600">
+                        <p>Sim, as lâminas são facilmente removíveis e podem ser lavadas sob água corrente para uma limpeza rápida e higiênica. Certifique-se de que o corpo do aparelho não seja submerso, a menos que especificado como 100% à prova d'água.</p>
+                    </div>
+                </div>
+                <div class="faq-item bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center cursor-pointer">
+                        <h3 class="text-xl font-semibold text-gray-700">Vem com pentes de ajuste de comprimento?</h3>
+                        <span class="faq-icon text-2xl text-teal-600">+</span>
+                    </div>
+                    <div class="faq-answer mt-4 text-gray-600">
+                        <p>Sim, o kit inclui vários pentes de ajuste para diferentes comprimentos de corte, permitindo total versatilidade para cabelo, barba e pelos corporais.</p>
+                    </div>
+                </div>
+                <div class="faq-item bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center cursor-pointer">
+                        <h3 class="text-xl font-semibold text-gray-700">É seguro para peles sensíveis?</h3>
+                        <span class="faq-icon text-2xl text-teal-600">+</span>
+                    </div>
+                    <div class="faq-answer mt-4 text-gray-600">
+                        <p>As lâminas são projetadas para um corte suave e preciso, minimizando puxões e irritações. Recomenda-se testar em uma pequena área e usar cremes ou espumas de barbear para maior conforto se tiver pele sensível.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call to Action Section -->
+    <section class="bg-teal-700 text-white">
+        <div class="max-w-4xl mx-auto py-16 md:py-20 px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Eleve Seu Estilo. Domine Sua Aparência.</h2>
+            <p class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto mb-8">Tenha o controle total sobre seu visual com o aparador elétrico profissional. Qualidade, precisão e versatilidade em suas mãos.</p>
+            <a href="https://s.shopee.com.br/2B3Ss7bNAr" target="_blank" class="cta-button inline-block bg-white text-teal-800 font-bold rounded-full px-12 py-5 text-xl hover:bg-teal-100 transition duration-300 ease-in-out transform hover:scale-105">
+                Comprar Meu Aparador Agora!
+            </a>
+        </div>
+    </section>
+
+    <footer class="text-center py-6 bg-gray-50">
+        <p class="text-gray-500 text-sm">&copy; 2025 Cuidados Pessoais. Todos os direitos reservados. *Seu estilo, nossa precisão.*</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mode Selector Logic
+            const modeSelector = document.getElementById('mode-selector');
+            const modeDetails = document.getElementById('mode-details');
+            const modeDescriptions = {
+                "Cabelo": "Para cortes precisos e ajustes de comprimento, ideal para manter o cabelo sempre impecável.",
+                "Barba": "Desenhe e apare sua barba com exatidão, criando diferentes estilos e mantendo o visual em dia.",
+                "Corpo": "Cuide dos pelos corporais com segurança e conforto, para uma pele suave e bem cuidada."
+            };
+            const buttons = modeSelector.querySelectorAll('button');
+
+            modeSelector.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    buttons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.style.borderColor = 'transparent';
+                        btn.classList.remove('bg-teal-600', 'text-white');
+                        btn.classList.add('bg-gray-300', 'text-gray-800');
+                    });
+                    
+                    e.target.classList.add('active');
+                    e.target.style.borderColor = '#0D9488'; /* Cor de borda para ativo: teal-600 */
+                    e.target.classList.remove('bg-gray-300', 'text-gray-800');
+                    e.target.classList.add('bg-teal-600', 'text-white');
+                    
+                    const modeName = e.target.dataset.mode;
+                    modeDetails.textContent = `Modo ${modeName}: ${modeDescriptions[modeName]}`;
+                }
+            });
+
+            // Chart.js Logic
+            const ctx = document.getElementById('versatilityChart').getContext('2d');
+            const versatilityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Barba (45%)', 'Cabelo (35%)', 'Corpo (20%)'],
+                    datasets: [{
+                        label: 'Versatilidade de Uso',
+                        data: [45, 35, 20],
+                        backgroundColor: [
+                            'rgba(20, 184, 166, 0.8)',  // Teal-500
+                            'rgba(75, 85, 99, 0.8)',   // Gray-700
+                            'rgba(156, 163, 175, 0.8)'  // Gray-400
+                        ],
+                        borderColor: [
+                            'rgba(20, 184, 166, 1)',
+                            'rgba(75, 85, 99, 1)',
+                            'rgba(156, 163, 175, 1)'
+                        ],
+                        borderWidth: 1,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        title: {
+                           display: true,
+                           text: 'Distribuição da Versatilidade de Uso (%)',
+                           font: {
+                               size: 18,
+                               weight: 'bold'
+                           },
+                           padding: {
+                               top: 10,
+                               bottom: 20
+                           }
+                        }
+                    }
+                }
+            });
+
+            // FAQ Accordion Logic
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const header = item.querySelector('.cursor-pointer');
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('.faq-icon');
+
+                header.addEventListener('click', () => {
+                    // Close all other open answers
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.querySelector('.faq-answer').classList.remove('open');
+                            otherItem.querySelector('.faq-icon').classList.remove('rotate');
+                        }
+                    });
+
+                    // Toggle current item
+                    answer.classList.toggle('open');
+                    icon.classList.toggle('rotate');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
